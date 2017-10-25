@@ -54,24 +54,14 @@ int main(int argc, char* argv[]) // call like this: main "text.txt"
 		if(buf[i] < 32)  /* replace unreadable control-codes by dots */
 			{buf[i] = '.';}
       }
-      printf("received %i bytes: %s\n", n, (char *)buf);
+      printf("received %i bytes: %s\n", n, (char *)buf);//spam debug information
     }
 	//##################### send command if plotter is ready ##########################
-	/*
-	if(buf[0] == '>'){
-		if( fgets(line, sizeof(line), fptr) ){ //read line 
-			if(line[0] == 'G'){ // if line is a gcode block send it
-				RS232_cputs(cport_nr, line);
-				printf("send gcode block: %s", line);
-			}
-		}else{printf("end of file\n"); fclose(fptr);return 0;} //end of file exit
-	}
-	*/
 	int j;
 	for(j = 0; j < 4095; j++){ // search for ready code of the plotter
 		if(buf[j] == 0){break;}
 		if( buf[j] == '>' ){ //found ready code
-			printf("FOUND READY CODE\n");
+			printf("FOUND READY CODE\n"); //spam debug information
 			printf(buf);
 			printf("\n");
 			int search = 1;
@@ -81,12 +71,12 @@ int main(int argc, char* argv[]) // call like this: main "text.txt"
 						//RS232_cputs(cport_nr, startBit);
 						startBit[0] = '@';
 						int try;
-						for(try = 1; try < 520; try++){startBit[try] = 0;}
+						for(try = 1; try < 520; try++){startBit[try] = 0;} //clear the buffer that gets send (because RS232_cputs doesn't give a sh*t about null terminated strings)
 						startBit[1] = 0;
 						strcat(startBit, line); // place startBit at the start of the command
-						strcat(startBit, endBit);
-						RS232_cputs(cport_nr, startBit);
-						printf("send gcode block: %s", startBit);
+						strcat(startBit, endBit); // place endBit at the very end
+						RS232_cputs(cport_nr, startBit); //send the gcode block to the plotter
+						printf("send gcode block: %s", startBit);//spam debug information
 						search = 0;
 					}
 				}else{printf("end of file\n"); fclose(fptr);return 0;} //end of file exit
@@ -95,7 +85,7 @@ int main(int argc, char* argv[]) // call like this: main "text.txt"
 		}
 	}
 	int tryHard;
-	for(tryHard = 1; tryHard < 4095; tryHard++){buf[tryHard] = 0;}
+	for(tryHard = 1; tryHard < 4095; tryHard++){buf[tryHard] = 0;}//clear the buffer that holds incomming data
 	
 #ifdef _WIN32
     Sleep(100);
@@ -106,4 +96,3 @@ int main(int argc, char* argv[]) // call like this: main "text.txt"
 
   return(0);
 }
-//@G03 X499.761643 Y646.316745 Z-0.125000 I-201.539455 J-29.289516 @
