@@ -3,7 +3,7 @@
 
 ### Inkscape: extensions: gcodetools
 
-0. File : Document
+0. File : Document Properties -> width and heigth to 4000
 1. draw cleen with draw lines tool
 2. select drawings 
 3. gcodetools : tools library -> use default tool and search for green thing set diameter to 1.0
