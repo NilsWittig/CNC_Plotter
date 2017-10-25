@@ -1,5 +1,6 @@
 # CNC Plotter and SerialSender
 
+## thanks to [Teunis van Beelen](https://www.teuniz.net/RS-232/)
 
 ### Inkscape: extensions: gcodetools
 
